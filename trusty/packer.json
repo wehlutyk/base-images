@@ -1,0 +1,50 @@
+{
+  "variables": {
+    "ssh_name": "ubuntu",
+    "ssh_pass": "ubuntu",
+    "hostname": "base-trusty"
+  },
+  "builders": [
+    {
+      "type": "qemu",
+      "output_directory": "image",
+
+      "iso_url": "http://cdimage.ubuntu.com/releases/trusty/release/ubuntu-14.04.2-server-amd64+mac.iso",
+      "iso_checksum": "81bed02ad95a7f2c0f4f73233aa7e0041edfc4e7395040d0ec24c8724c01cf6c",
+      "iso_checksum_type": "sha256",
+
+      "vm_name": "{{user `hostname`}}",
+      "disk_size": 5000,
+      "format": "qcow2",
+      "headless": false,
+      "accelerator": "kvm",
+      "qemuargs": [
+        ["-m", "1024M"]
+      ],
+
+      "shutdown_command": "echo {{user `ssh_pass`}} | sudo -S shutdown -P now",
+      "shutdown_timeout": "5m",
+
+      "http_directory": "httpdir",
+      "ssh_username": "{{user `ssh_name`}}",
+      "ssh_password": "{{user `ssh_pass`}}",
+      "ssh_wait_timeout": "90m",
+
+      "net_device": "virtio-net",
+      "disk_interface": "virtio",
+
+      "boot_wait": "1s",
+      "boot_command": [
+        "<esc><esc><enter><wait>",
+        "/install/vmlinuz noapic ",
+        "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
+        "debian-installer=en_US auto locale=en_US kbd-chooser/method=us ",
+        "hostname={{user `hostname`}} ",
+        "fb=false debconf/frontend=noninteractive ",
+        "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA ",
+        "keyboard-configuration/variant=USA console-setup/ask_detect=false ",
+        "initrd=/install/initrd.gz -- <enter>"
+      ]
+    }
+  ]
+}
