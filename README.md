@@ -13,9 +13,11 @@ Images are built using [Packer](http://www.packer.io/). An image is defined with
 
 To build an image:
 ```shell
-cd <image-name>
+cd <image-name>   # This is important so that packer finds the `httpdir` folder
 packer build packer.json
 ```
+
+On a reasonable DSL connection the build process shouldn't take more than 30 minutes. Once finished, the image is available as `<image-name>/image/base-<image-name>.qcow2`.
 
 Using the images
 ----------------
