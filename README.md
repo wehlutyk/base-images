@@ -11,7 +11,11 @@ Images are built using [Packer](http://www.packer.io/). An image is defined with
 * `<image-name>/packer.json`: the packer json definition, which configures the way packer builds the image
 * `<image-name>/httpdir/preseed.cfg`: the preseed file fed to the debian installer
 
-Prebuilt qcow image files are included in `<image-name>/image/`, along with a checksum file and signature of the checksum file.
+To build an image:
+```shell
+cd <image-name>
+packer build packer.json
+```
 
 Using the images
 ----------------
