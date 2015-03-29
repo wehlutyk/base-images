@@ -16,7 +16,7 @@
       "vm_name": "{{user `hostname`}}",
       "disk_size": 5000,
       "format": "qcow2",
-      "headless": false,
+      "headless": true,
       "accelerator": "kvm",
       "qemuargs": [
         ["-m", "1024M"]
